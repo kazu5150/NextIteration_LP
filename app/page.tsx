@@ -6,7 +6,6 @@ import { Zap } from "lucide-react";
 export default function Page() {
   return (
     <AiStartupLanding>
-      ...
       <section id="services" className="w-full py-16 md:py-24 lg:py-32 bg-gray-900">
         <div className="container px-4 md:px-6">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8 text-transparent bg-clip-text bg-gradient-to-t from-yellow-400 to-white">
