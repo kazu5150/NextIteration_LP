@@ -12,8 +12,6 @@ import Link from 'next/link'
 export function AiStartupLanding() {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
-  const [input, setInput] = useState('');
-  const [response, setResponse] = useState('');
 
   useEffect(() => {
     const handleScroll = (e: Event) => {
@@ -46,19 +44,6 @@ export function AiStartupLanding() {
     setEmail('')
     setMessage('')
   }
-
-  const handleChatSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ message: input }),
-    });
-    const data = await res.json();
-    setResponse(data.reply);
-  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-gray-100">
