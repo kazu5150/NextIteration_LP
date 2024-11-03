@@ -135,6 +135,7 @@ export function AiStartupLanding() {
                 </Link>
               </Card>
               <Card className="bg-gray-800 border-gray-700">
+              <Link href="/AiEducation">
                 <CardHeader>
                   <div className="flex items-center space-x-4">
                     <BookOpen className="h-8 w-8 text-yellow-400" />
@@ -146,6 +147,7 @@ export function AiStartupLanding() {
                     従業員のAIリテラシー向上を支援します。カスタマイズされたトレーニングプログラムで、AIツールの効果的な活用方法を学べます。
                   </p>
                 </CardContent>
+                </Link>
               </Card>
               <Card className="bg-gray-800 border-gray-700">
                 <CardHeader>
