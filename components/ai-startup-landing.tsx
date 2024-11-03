@@ -7,10 +7,13 @@ import { Textarea } from "@/components/ui/textarea"
 import { ArrowRight, Cpu, BookOpen, Zap, BarChart, Users, Cog } from "lucide-react"
 import { Card, CardHeader, CardContent } from "@/components/ui/card"
 import Image from 'next/image'
+import Link from 'next/link'
 
 export function AiStartupLanding() {
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
+  const [input, setInput] = useState('');
+  const [response, setResponse] = useState('');
 
   useEffect(() => {
     const handleScroll = (e: Event) => {
@@ -44,34 +47,48 @@ export function AiStartupLanding() {
     setMessage('')
   }
 
+  const handleChatSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ message: input }),
+    });
+    const data = await res.json();
+    setResponse(data.reply);
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-900 text-gray-100">
-      <header className="px-4 lg:px-6 h-14 flex items-center justify-between border-b border-gray-700">
-        <div className="flex items-center space-x-4">
-          <a className="flex items-center justify-center" href="#">
-            <Cpu className="h-6 w-6 text-primary" />
-            <span className="ml-2 text-2xl font-bold text-primary">Next Iteration</span>
-          </a>
-          <span className="text-sm font-medium text-gray-300">Next Iteration Co., Ltd.</span>
+      <header className="px-4 lg:px-6 h-14 flex items-center justify-center border-b border-gray-700">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-4">
+            <a className="flex items-center justify-center" href="#">
+              <Cpu className="h-6 w-6 text-primary" />
+              <span className="ml-2 text-2xl font-bold text-yellow-400">Next Iteration Co.,Ltd</span>
+            </a>
+          </div>
+          <nav className="flex gap-4 sm:gap-6">
+            <a className="text-sm font-medium hover:underline underline-offset-4 text-white" href="#services">
+              サービス
+            </a>
+            <a className="text-sm font-medium hover:underline underline-offset-4 text-white" href="#team">
+              チーム
+            </a>
+            <a className="text-sm font-medium hover:underline underline-offset-4 text-white" href="#testimonials">
+              お客様の声
+            </a>
+            <a className="text-sm font-medium hover:underline underline-offset-4 text-white" href="#contact">
+              お問い合わせ
+            </a>
+          </nav>
         </div>
-        <nav className="flex gap-4 sm:gap-6">
-          <a className="text-sm font-medium hover:underline underline-offset-4 text-gray-300" href="#services">
-            サービス
-          </a>
-          <a className="text-sm font-medium hover:underline underline-offset-4 text-gray-300" href="#team">
-            チーム
-          </a>
-          <a className="text-sm font-medium hover:underline underline-offset-4 text-gray-300" href="#testimonials">
-            お客様の声
-          </a>
-          <a className="text-sm font-medium hover:underline underline-offset-4 text-gray-300" href="#contact">
-            お問い合わせ
-          </a>
-        </nav>
       </header>
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-gray-800">
-          <div className="container px-4 md:px-6">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none text-transparent bg-clip-text bg-gradient-to-t from-yellow-400 to-white">
@@ -94,23 +111,28 @@ export function AiStartupLanding() {
           </div>
         </section>
         <section id="services" className="w-full py-16 md:py-24 lg:py-32 bg-gray-900">
-          <div className="container px-4 md:px-6">
+          <div className="container mx-auto px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8 text-transparent bg-clip-text bg-gradient-to-t from-yellow-400 to-white">
               サービス項目
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               <Card className="bg-gray-800 border-gray-700">
-                <CardHeader>
-                  <div className="flex items-center space-x-4">
-                    <Zap className="h-8 w-8 text-yellow-400" />
-                    <h3 className="text-xl font-bold text-white">AI業務効率化支援</h3>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-gray-400">
-                    AIを活用して業務プロセスを最適化し、生産性を向上させます。日常業務の自動化から高度な意思決定支援まで幅広くサポートします。
-                  </p>
-                </CardContent>
+                <Link href="/AiBusinessSupport">
+                  <CardHeader>
+                    <div className="flex items-center space-x-4">
+                      <Zap className="h-8 w-8 text-yellow-400" />
+                      <h3 className="text-xl font-bold text-white">AI業務効率化支援</h3>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-400">
+                      AIを活用して業務プロセスを最適化し、生産性を向上させます。日常業務の自動化から高度な意思決定支援まで幅広くサポートします。
+                    </p>
+                    <span className="text-primary hover:underline">
+                      詳細を見る
+                    </span>
+                  </CardContent>
+                </Link>
               </Card>
               <Card className="bg-gray-800 border-gray-700">
                 <CardHeader>
@@ -168,7 +190,7 @@ export function AiStartupLanding() {
           </div>
         </section>
         <section id="team" className="w-full py-12 md:py-24 lg:py-32 bg-gray-800">
-          <div className="container px-4 md:px-6">
+          <div className="container mx-auto px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8 text-transparent bg-clip-text bg-gradient-to-t from-yellow-400 to-white">
               私たちのチーム
             </h2>
@@ -213,7 +235,7 @@ export function AiStartupLanding() {
           </div>
         </section>
         <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-gray-900">
-          <div className="container px-4 md:px-6">
+          <div className="container mx-auto px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-8 text-transparent bg-clip-text bg-gradient-to-t from-yellow-400 to-white">
               お客様の声
             </h2>
@@ -229,7 +251,7 @@ export function AiStartupLanding() {
               <Card className="bg-gray-700 border-gray-600">
                 <CardContent className="p-6">
                   <p className="text-gray-300 mb-4">
-                    「AI教育支援プログラムのおかげで、社員全体のデジタルリテラシーが向上しました。今では社内でAIツールを積極的に活用し、イノベーションが加速しています。」
+                    「AI教育支援プログラムのおかげで、社員全体のデジタルリテラシーが向上しました。今では社内でAIツルを積極的に活用し、イノベーションが加速しています。」
                   </p>
                   <p className="font-bold text-white">鈴木花子 様 - サービス業 人事部長</p>
                 </CardContent>
@@ -238,7 +260,7 @@ export function AiStartupLanding() {
           </div>
         </section>
         <section id="contact" className="w-full py-12 md:py-24 lg:py-32 bg-gray-800">
-          <div className="container px-4 md:px-6">
+          <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-transparent bg-clip-text bg-gradient-to-t from-yellow-400 to-white">
@@ -256,7 +278,6 @@ export function AiStartupLanding() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    
                     className="bg-gray-700 text-white border-gray-600 focus:border-primary"
                   />
                   <Textarea 
@@ -274,16 +295,18 @@ export function AiStartupLanding() {
           </div>
         </section>
       </main>
-      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t border-gray-700 bg-gray-800">
-        <p className="text-xs text-gray-400">© 2024 Next Iteration Co., Ltd. All rights reserved.</p>
-        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-          <a className="text-xs hover:underline underline-offset-4 text-gray-400" href="#">
-            利用規約
-          </a>
-          <a className="text-xs hover:underline underline-offset-4 text-gray-400" href="#">
-            プライバシーポリシー
-          </a>
-        </nav>
+      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center justify-center px-4 md:px-6 border-t border-gray-700 bg-gray-800">
+        <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center">
+          <p className="text-xs text-gray-400">© 2024 Next Iteration Co., Ltd. All rights reserved.</p>
+          <nav className="flex gap-4 sm:gap-6">
+            <a className="text-xs hover:underline underline-offset-4 text-gray-400" href="#">
+              利用規約
+            </a>
+            <a className="text-xs hover:underline underline-offset-4 text-gray-400" href="#">
+              プライバシーポリシー
+            </a>
+          </nav>
+        </div>
       </footer>
     </div>
   )
